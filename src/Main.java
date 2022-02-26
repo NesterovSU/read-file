@@ -75,7 +75,7 @@ public class Main {
 
     private static void showResults() {
         int maxCountWord;
-
+        System.out.println("\nВ файле найдены слова:");
         for (Map.Entry<String, Integer> entry : dictionary.entrySet()){
             System.out.println(entry.getKey() + " - " + entry.getValue() + " повторений"); // выводим все слова из словаря
         }
