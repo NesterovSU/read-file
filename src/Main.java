@@ -19,23 +19,37 @@ public class Main {
             if (scan.hasNext()){
                 String input = scan.nextLine();
                 if (input.equals("exit")) break;
-                String path = checkInput(input);   // проверяем относительный ли путь к файлу
-                if (!readFile(path)) continue;      // считываем текст из файла (при исключении возвращается false)
-                showResults();                  // выводим результаты
+                try {
+
+                    String path = checkInput(input);   // проверяем относительный ли путь к файлу и расширение файла
+                    readFile(path);                 // считываем текст из файла (при исключении возвращается false)
+                    showResults();                  // выводим результаты
+
+                } catch (NotTxtException e){
+                    System.out.println("Выбран нетекстовый файл!");
+                } catch (FileNotFoundException e) {
+                    System.out.println("Файл не найден!");
+                } catch (IOException e) {
+                    System.out.println("Ошибка открытия файла!");
+                } catch (NoSuchElementException e) {
+                    System.out.println("Не найдено слов в файле!");
+                }
             }
         }
         scan.close();
     }
 
-    public static String checkInput(String input){
+    public static String checkInput(String input) throws NotTxtException {
+        if (!input.endsWith(".txt"))
+            throw new NotTxtException();
         if (!input.startsWith(":\\", 1))
             input = Paths.get("").toAbsolutePath() + "\\" + input;
 //        System.out.println(input);
         return input;
     }
 
-    private static boolean readFile(String path) {
-        try (FileReader reader = new FileReader(path)){
+    private static void readFile(String path) throws IOException{
+            FileReader reader = new FileReader(path);
             StringBuilder temp = new StringBuilder();
             int c;
             while ((c = reader.read()) != -1){
@@ -50,16 +64,7 @@ public class Main {
                 }
             }
             addToDictionary(temp.toString());   // добавляем последнее слово в словарь
-
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден!");
-            return false;
-        } catch (IOException e) {
-            System.out.println("Ошибка открытия файла!");
-            return false;
-        }
-        return true;
+            reader.close();
     }
 
     private static void addToDictionary(String word) {
@@ -72,20 +77,15 @@ public class Main {
         }
     }
 
-    private static void showResults() {
+    private static void showResults() throws NoSuchElementException{
         int maxCountWord;
         System.out.println("\nВ файле найдены слова:");
         for (Map.Entry<String, Integer> entry : dictionary.entrySet()){
             System.out.println(entry.getKey() + " - " + entry.getValue() + " повторений"); // выводим все слова из словаря
         }
 
-        try {
-             maxCountWord = dictionary.values().stream()  // находим максимальное число повторений
+        maxCountWord = dictionary.values().stream()  // находим максимальное число повторений
                     .max(Integer::compareTo).get();
-        }catch (NoSuchElementException ex){
-            System.out.println("Не найдено слов в файле!");
-            return;
-        }
 
         System.out.println("\nЧаще всего встречается:");
 
@@ -94,4 +94,7 @@ public class Main {
                 System.out.println(entry.getKey() + " - составляет " + maxCountWord*100/countWord + "% от всех слов");
         }
     }
+}
+
+class NotTxtException extends IOException{
 }
