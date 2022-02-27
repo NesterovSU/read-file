@@ -40,8 +40,7 @@ public class Main {
             int c;
             while ((c = reader.read()) != -1){
 //                System.out.println((char) c);
-                if(        (0x2F<c && c<0x3A)
-                        || (0x41<c && c<0x5B)
+                if(        (0x40<c && c<0x5B)
                         || (0x60<c && c<0x7B))
                 {
                     temp.append((char) c);   // если с - буква или цифра, то добавляем его в слово
