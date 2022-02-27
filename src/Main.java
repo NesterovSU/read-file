@@ -22,7 +22,7 @@ public class Main {
                 try {
 
                     String path = checkInput(input);   // проверяем относительный ли путь к файлу и расширение файла
-                    readFile(path);                 // считываем текст из файла (при исключении возвращается false)
+                    readFile(path);                 // считываем текст из файла 
                     showResults();                  // выводим результаты
 
                 } catch (NotTxtException e){
