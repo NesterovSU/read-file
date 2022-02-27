@@ -43,7 +43,7 @@ public class Main {
                 if(        (0x40<c && c<0x5B)
                         || (0x60<c && c<0x7B))
                 {
-                    temp.append((char) c);   // если с - буква или цифра, то добавляем его в слово
+                    temp.append((char) c);   // если с - буква, то добавляем её в слово
                 } else {
                     addToDictionary(temp.toString());   // добавляем слово в словарь
                     temp.setLength(0);
