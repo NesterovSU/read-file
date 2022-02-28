@@ -59,11 +59,11 @@ public class Main {
                 {
                     temp.append((char) c);   // если с - буква, то добавляем её в слово
                 } else {
-                    addToDictionary(temp.toString());   // добавляем слово в словарь
+                    addToDictionary(temp.toString().toLowerCase());   // добавляем слово в словарь
                     temp.setLength(0);
                 }
             }
-            addToDictionary(temp.toString());   // добавляем последнее слово в словарь
+            addToDictionary(temp.toString().toLowerCase());   // добавляем последнее слово в словарь
             reader.close();
     }
 
